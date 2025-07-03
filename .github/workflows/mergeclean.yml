@@ -1,16 +1,16 @@
-name: Auto Update Merged Clean IPTV Playlist
+name: 🔄 Auto Update Merged Clean IPTV Playlist
 
 on:
   push:
     branches:
       - main
     paths:
-      - 'mergeclean.py'
-      - '.github/workflows/mergeclean.yml'
+      - 'mergeclean.py'                  # 🛠 Trigger on script changes
+      - '.github/workflows/mergeclean.yml'  # 📝 Or workflow changes
   schedule:
-    - cron: '0 * * * *'      # Every hour at 0
-    - cron: '*/10 * * * *'   # Every 10 minutes
-  workflow_dispatch:
+    - cron: '0 * * * *'      # 🕛 Every hour at minute 0
+    - cron: '*/10 * * * *'   # ⏱ Every 10 minutes
+  workflow_dispatch:          # 🔘 Manual trigger
 
 jobs:
   update-playlist:
@@ -20,9 +20,9 @@ jobs:
       - name: 📥 Checkout repository
         uses: actions/checkout@v3
         with:
-          fetch-depth: 0
+          fetch-depth: 0  # 🧠 Full git history for safety
 
-      - name: 🐍 Set up Python
+      - name: 🐍 Set up Python environment
         uses: actions/setup-python@v4
         with:
           python-version: '3.x'
@@ -35,22 +35,22 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-      - name: 🔃 Pull latest from main
+      - name: 🔃 Pull latest changes from main branch
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           git remote set-url origin https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}.git
           git pull origin main --rebase
 
-      - name: ▶️ Run merging script
+      - name: ▶️ Run mergeclean.py script
         run: python mergeclean.py
 
-      - name: 📂 Stage and commit changes if updated
+      - name: 📂 Stage & commit updated playlist
         run: |
           git add MergedCleanPlaylist.m3u8
-          git diff --cached --quiet || git commit -m "Auto-update merged clean IPTV playlist"
+          git diff --cached --quiet || git commit -m "📝 Auto-update merged clean IPTV playlist"
 
-      - name: 🚀 Push to main
+      - name: 🚀 Push changes to main branch
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: git push origin main
