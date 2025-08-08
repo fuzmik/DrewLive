@@ -149,7 +149,7 @@ def build_m3u(streams, url_map):
         # Use first valid URL only to avoid multiple entries with same name
         url = next(iter(urls))
 
-        lines.append(f'#EXTINF:-1 tvg-id="{tvg_id}" tvg-logo="{logo}" group-title="{final_group}",{s["name"]}')
+        lines.append(f'#EXTINF:-1 tvg-id="{tvg_id}" tvg-logo="{logo}" tvg-name="{s["name"]}" group-title="{final_group}",{s["name"]}')
         lines.extend(CUSTOM_HEADERS)
         lines.append(url)
 
