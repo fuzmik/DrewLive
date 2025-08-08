@@ -125,13 +125,13 @@ def write_merged_playlist(all_unique_channels, timestamp_line):
     for group_lower, title_lower, extinf, headers, url in sorted_channels:
         
         group_match = re.search(r'group-title="([^"]+)"', extinf)
-        actual_group_name = group_match.group(1) if group_match else "Other"
+#        actual_group_name = group_match.group(1) if group_match else "Other"
 
-        if actual_group_name != current_group:
-            if current_group is not None:
-                lines.append("")
-            lines.append(f'#EXTGRP:{actual_group_name}')
-            current_group = actual_group_name
+#        if actual_group_name != current_group:
+#            if current_group is not None:
+#                lines.append("")
+#            lines.append(f'#EXTGRP:{actual_group_name}')
+#            current_group = actual_group_name
             
         lines.append(extinf)
         for hdr_line in headers:
